@@ -15,8 +15,8 @@ public partial class Form1 : Form
             Label key = (Label)sender;
             if(key.Text == "ENTER"){
                 EndType end_type = game.enter();
-                if(end_type == EndType.CorrectWord) end(true);
-                else if(end_type == EndType.FalseWordEnd) end(false);
+                if(end_type == EndType.CorrectWord) end(game.word);
+                else if(end_type == EndType.FalseWordEnd) end("");
                 return;
             }
             if(key.Text == "DELETE"){

@@ -28,23 +28,22 @@ partial class Form1
     /// </summary>
     private void InitializeComponent(){
 
-        // this.SuspendLayout();
         this.Size = new System.Drawing.Size(size_x,size_y);
         this.Text =  "WORDLE";
-        this.BackColor = Color.Black;
+        this.BackColor = Color.FromArgb(26, 26, 26);
         create_keyboard();
         create_tiles();
         this.CenterToScreen();
-        // this.panel_keys.ResumeLayout(false);
-        // this.ResumeLayout(false);
     } 
 
     #endregion 
 
-    private Panel panel_keys = new Panel();
+    public static Panel panel_keys = new Panel();
     private Panel panel_tiles = new Panel();
     private int size_x = 1100;
     private int size_y = 1300;
+    private Color tile_color = Color.FromArgb(51, 51, 51);
+    private Color key_color = Color.DimGray;
 
     private void create_keyboard(){
 
@@ -67,7 +66,7 @@ partial class Form1
                     BorderStyle = BorderStyle.FixedSingle,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Calibri", 16, FontStyle.Bold),
-                    BackColor = Color.DimGray,
+                    BackColor = key_color,
                     ForeColor = Color.White
                 };
 
@@ -99,8 +98,6 @@ partial class Form1
         panel_keys.Location = new Point(size_x/2 - panel_keys.Size.Width/2, 
                                         size_y - 4*panel_keys.Size.Height/3);
 
-        // panel_keys.TabIndex = 1;
-        // panel_keys.SuspendLayout();
         this.Controls.Add(panel_keys);
     }
 
@@ -121,7 +118,7 @@ partial class Form1
                     Text = "",
                     Name = i.ToString() + j.ToString(),
                     ForeColor = Color.White,
-                    BackColor = Color.Black
+                    BackColor = tile_color
                 };
                 tile.Visible = true;
                 tiles_dict.Add(tile.Name, tile);
@@ -136,33 +133,27 @@ partial class Form1
         }
     }
 
-    private void end(bool win){
+    private void end(string win){
         Panel panel_end = new Panel();
         Label end_window = new Label{
-                    // Width = size_x/3,
-                    // Height = size_y/4,
-                    // Top = size_x/9,
-                    // Left = size_x/9,
                     Font = new Font("Calibri", 20, FontStyle.Bold),
                     BorderStyle = BorderStyle.FixedSingle,
                     TextAlign = ContentAlignment.MiddleCenter,
                     ForeColor = Color.White
                 };
-        if(win){ 
-            end_window.Text = "You won!";
-            end_window.BackColor = Color.Green;
+        if(win != ""){ 
+            end_window.Text = "You won!\n" + win;
+            end_window.BackColor = game.green;
         }
         else{ 
             end_window.Text = "You lost. Correct word: " + game.word.ToUpper();
-            end_window.BackColor = Color.Red;
+            end_window.BackColor = game.red;
         }
 
         end_window.Visible = true;
 
         end_window.Size = new Size(8*size_x/9, size_y/5);
-        // end_window.Location = new Point((size_x-end_window.Size.Width)/2, 
-        //                                 (size_y-end_window.Size.Height)/2);
-        // end_window.CenterToParent();
+
         panel_end.Controls.Add(end_window);
         panel_end.Size = new Size(8*size_x/9, size_y/5);
         panel_end.Location = new Point((size_x-end_window.Size.Width)/2, 
@@ -170,7 +161,6 @@ partial class Form1
         panel_end.Controls[panel_end.Controls.Count-1].BringToFront();
 
         this.Controls.Add(panel_end);
-        // this.Controls.Add(end_window);
         this.Controls[this.Controls.Count-1].BringToFront();
     }
 }
